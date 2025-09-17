@@ -7,7 +7,7 @@ namespace Booking.Domain.Entities
         public string GuestName { get; set; } = string.Empty;
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public DateTime BookingDate { get; set; }
+        public DateTime BookingDate { get; set; } = DateTime.UtcNow;
         public int RoomId { get; set; }
         public Room Room { get; set; }
     }
