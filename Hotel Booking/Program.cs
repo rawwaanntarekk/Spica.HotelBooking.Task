@@ -1,5 +1,9 @@
 
+using Booking.Application.Services;
+using Booking.Application.Services.Contracts;
+using Booking.Domain.Interfaces;
 using Booking.Infrastructure.Data;
+using Booking.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hotel_Booking
@@ -14,12 +18,16 @@ namespace Hotel_Booking
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             // Registering the DB Context
 
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IBookingService, BookingService>();
 
             var app = builder.Build();
 
@@ -38,7 +46,8 @@ namespace Hotel_Booking
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();

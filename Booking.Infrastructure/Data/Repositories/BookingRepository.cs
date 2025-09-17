@@ -25,17 +25,27 @@ namespace Booking.Infrastructure.Data.Repositories
 
         }
 
-        public async Task UpdateBooking(DbBooking booking)
+        public async Task UpdateBookingDatesAsync(int id, DateTime checkIn, DateTime checkOut)
         {
-           context.Bookings.Update(booking);
-           await context.SaveChangesAsync();
+            var booking = await context.Bookings.FindAsync(id);
+            if (booking == null) return;
 
+            booking.CheckInDate = checkIn;
+            booking.CheckOutDate = checkOut;
+
+            await context.SaveChangesAsync();
         }
 
-        public void DeleteBooking(DbBooking booking)
+
+
+        public int DeleteBooking(DbBooking booking)
         {
+            if (context.Bookings.Find(booking.Id) == null)
+                return 0;
             context.Bookings.Remove(booking);
-            context.SaveChanges();
+            return context.SaveChanges();
+
+
 
         }
 
@@ -43,10 +53,10 @@ namespace Booking.Infrastructure.Data.Repositories
         {
             return await context.Bookings.AnyAsync(b =>
             b.RoomId == booking.RoomId &&
-            booking.CheckInDate < b.CheckOutDate &&
-            booking.CheckOutDate > b.CheckInDate);
+            booking.CheckInDate <= b.CheckOutDate &&
+            booking.CheckOutDate >= b.CheckInDate);
         }
 
-     
+      
     }
 }

@@ -1,4 +1,5 @@
-﻿using Booking.Application.Services.Contracts;
+﻿using Booking.Application.DTOs;
+using Booking.Application.Services.Contracts;
 using Booking.Domain.Interfaces;
 using DbBooking = Booking.Domain.Entities.Booking;
 
@@ -18,19 +19,23 @@ namespace Booking.Application.Services
             else
                 return await repository.AddBookingAsync(booking);
         }
-        public void CancelBooking(DbBooking booking)
-        => repository.DeleteBooking(booking);
-
-
-        public Task EditBooking(DbBooking booking)
+        public int CancelBooking(DbBooking booking)
         {
-           return repository.UpdateBooking(booking);
+           return repository.DeleteBooking(booking);
         }
 
-        Task IBookingService.CreateBooking(DbBooking booking)
+
+        public async Task EditBooking(int id, BookingUpdateDTO booking)
         {
-            return CreateBooking(booking);
+          await repository.UpdateBookingDatesAsync(id,booking.CheckInDate , booking.CheckOutDate);
         }
-      
+
+        public async Task<DbBooking?> GetBookingById(int id)
+        {
+            return await repository.GetBookingByIdAsync(id);
+        }
+
+
+
     }
 }

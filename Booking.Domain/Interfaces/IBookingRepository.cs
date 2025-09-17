@@ -7,8 +7,8 @@ namespace Booking.Domain.Interfaces
         Task<IReadOnlyList<DbBooking>> GetAllBookingsAsync(bool withTracking = false);
         Task<DbBooking?> GetBookingByIdAsync(int id);
         Task<int> AddBookingAsync(DbBooking booking);
-        Task UpdateBooking(DbBooking booking);
-        void DeleteBooking(DbBooking booking);
+        Task UpdateBookingDatesAsync(int id, DateTime checkIn, DateTime checkOut);
+        int DeleteBooking(DbBooking booking);
         Task<bool> IsRoomBooked(DbBooking booking);
     }
 }
