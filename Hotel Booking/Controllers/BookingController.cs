@@ -38,6 +38,8 @@ namespace Hotel_Booking.Controllers
 
             if (result == 0)
                 return BadRequest("Room is already booked for the selected dates.");
+            else if (result == -1)
+                return BadRequest("Check-out date must be after check-in date.");
 
             return CreatedAtAction(nameof(GetBookings), new { id = result }, booking);
         }
@@ -50,7 +52,7 @@ namespace Hotel_Booking.Controllers
             if (booking == null)
                 return NotFound(new { message = "Booking not found." });
 
-             _bookingService.EditBooking(id, updatedBooking);
+             await _bookingService.EditBooking(id, updatedBooking);
 
             return Ok(new { message = "Booking dates updated successfully." });
         }

@@ -16,6 +16,8 @@ namespace Booking.Application.Services
         {
             if (await repository.IsRoomBooked(booking))
                 return 0;
+            else if (booking.CheckInDate >= booking.CheckOutDate)
+                return -1;
             else
                 return await repository.AddBookingAsync(booking);
         }
