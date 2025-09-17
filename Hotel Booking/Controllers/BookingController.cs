@@ -23,6 +23,8 @@ namespace Hotel_Booking.Controllers
             return Ok(bookings);
         }
 
+
+
         [HttpPost]
         public async Task<ActionResult<int>> CreateBooking([FromBody] BookingDTO booking)
         {

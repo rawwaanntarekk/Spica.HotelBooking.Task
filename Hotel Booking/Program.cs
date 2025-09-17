@@ -27,6 +27,7 @@ namespace Hotel_Booking
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+            builder.Services.AddScoped<IHotelRepository, HotelRepository>();
             builder.Services.AddScoped<IBookingService, BookingService>();
 
             var app = builder.Build();
