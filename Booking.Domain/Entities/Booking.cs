@@ -9,5 +9,6 @@ namespace Booking.Domain.Entities
         public DateTime CheckOutDate { get; set; }
         public DateTime BookingDate { get; set; }
         public int RoomId { get; set; }
+        public Room Room { get; set; }
     }
 }

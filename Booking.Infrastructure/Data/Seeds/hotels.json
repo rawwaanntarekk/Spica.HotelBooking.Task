@@ -1,0 +1,32 @@
+﻿[
+  {
+    "Id": 0,
+    "Name": "Grand Palace Hotel",
+    "City": "Cairo",
+    "Stars": 5
+  },
+  {
+    "Id": 0,
+    "Name": "Nile View Inn",
+    "City": "Luxor",
+    "Stars": 4
+  },
+  {
+    "Id": 0,
+    "Name": "Desert Oasis Lodge",
+    "City": "Aswan",
+    "Stars": 3
+  },
+  {
+    "Id": 0,
+    "Name": "Pyramids Stay",
+    "City": "Giza",
+    "Stars": 4
+  },
+  {
+    "Id": 0,
+    "Name": "Mediterranean Breeze Hotel",
+    "City": "Alexandria",
+    "Stars": 5
+  }
+]

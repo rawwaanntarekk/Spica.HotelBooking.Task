@@ -1,0 +1,14 @@
+﻿[
+  {
+    "Id": 0,
+    "RoomName": "Deluxe Suite",
+    "PricePerNight": 150.00,
+    "HotelId": 1
+  },
+  {
+    "Id": 0,
+    "RoomName": "Standard Room",
+    "PricePerNight": 80.00,
+    "HotelId": 2
+  }
+]
