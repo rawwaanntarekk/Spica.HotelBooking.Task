@@ -8,7 +8,7 @@ namespace Booking.Application.Services.Contracts
         public Task<IReadOnlyList<DbBooking>> ListBookings();
         public Task<DbBooking?> GetBookingById(int id);
         public Task<int> CreateBooking(DbBooking booking);
-        public Task EditBooking(int id, BookingUpdateDTO booking);
+        public Task<(bool Success, string? ErrorMessage)> EditBooking(int id, BookingUpdateDTO booking);
         public int CancelBooking(DbBooking booking);
 
 

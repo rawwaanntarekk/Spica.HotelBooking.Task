@@ -49,12 +49,14 @@ namespace Hotel_Booking.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingUpdateDTO updatedBooking)
         {
-
             var booking = await _bookingService.GetBookingById(id);
             if (booking == null)
                 return NotFound(new { message = "Booking not found." });
 
-             await _bookingService.EditBooking(id, updatedBooking);
+            var result = await _bookingService.EditBooking(id, updatedBooking);
+
+            if (!result.Success)
+                return BadRequest(new { message = result.ErrorMessage });
 
             return Ok(new { message = "Booking dates updated successfully." });
         }
