@@ -1,7 +1,6 @@
 ﻿using Booking.Application.DTOs;
 using Booking.Application.Services.Contracts;
 using Booking.Domain.Interfaces;
-using System.Threading.Tasks;
 using DbBooking = Booking.Domain.Entities.Booking;
 
 
@@ -13,34 +12,25 @@ namespace Booking.Application.Services
         public async Task<IReadOnlyList<DbBooking>> ListBookings()
         => await repository.GetAllBookingsAsync();
 
-        private int IsValidBookingDate(DbBooking booking)
-        => booking.CheckOutDate > booking.CheckInDate ? 0 : -1;
+        private int IsValidBookingDate(DateTime CheckInDate, DateTime CheckOutDate) => CheckOutDate > CheckInDate ? 0 : -1;
 
         public async Task<int> CreateBooking(DbBooking booking)
         {
-            if (IsValidBookingDate(booking) != 0)
+            if (IsValidBookingDate(booking.CheckInDate, booking.CheckOutDate) != 0)
                 return -1;
             if (await repository.IsRoomBooked(booking))
                 return 0;
             return await repository.AddBookingAsync(booking);
            
         }
-        public int CancelBooking(DbBooking booking)
-        {
-           return repository.DeleteBooking(booking);
-        }
+        public int CancelBooking(DbBooking booking) => repository.DeleteBooking(booking);
 
 
         public async Task<(bool Success, string? ErrorMessage)> EditBooking(int id, BookingUpdateDTO booking)
         {
-            if (IsValidBookingDate(new DbBooking
-            {
-                CheckInDate = booking.CheckInDate,
-                CheckOutDate = booking.CheckOutDate
-            }) != 0)
-            {
+            if (IsValidBookingDate(booking.CheckInDate, booking.CheckOutDate) != 0)
                 return (false, "The provided check-in/check-out dates are not valid.");
-            }
+
 
             var entity = await repository.GetBookingByIdAsync(id);
             if (entity == null)
