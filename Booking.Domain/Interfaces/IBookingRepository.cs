@@ -9,6 +9,6 @@ namespace Booking.Domain.Interfaces
         Task<int> AddBookingAsync(DbBooking booking);
         Task UpdateBookingDatesAsync(int id, DateTime checkIn, DateTime checkOut);
         int DeleteBooking(DbBooking booking);
-        Task<bool> IsRoomBooked(DbBooking booking);
+        Task<IReadOnlyList<DbBooking>> GetBookingsForRoomAsync(int roomId);
     }
 }

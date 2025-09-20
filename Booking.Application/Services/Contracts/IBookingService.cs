@@ -6,10 +6,10 @@ namespace Booking.Application.Services.Contracts
     public interface IBookingService
     {
         public Task<IReadOnlyList<DbBooking>> ListBookings();
-        public Task<DbBooking?> GetBookingById(int id);
-        public Task<int> CreateBooking(DbBooking booking);
+        public Task<(bool success, string? ErrorMessage, BookingDTO? bookingDTO)> GetBookingById(int id);
+        public Task<(bool Success, string Message)> CreateBooking(DbBooking booking);
         public Task<(bool Success, string? ErrorMessage)> EditBooking(int id, BookingUpdateDTO booking);
-        public int CancelBooking(DbBooking booking);
+        public Task<(bool Success, string Message)> CancelBooking(int id);
 
 
 

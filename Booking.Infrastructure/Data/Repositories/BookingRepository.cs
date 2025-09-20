@@ -36,27 +36,17 @@ namespace Booking.Infrastructure.Data.Repositories
             await context.SaveChangesAsync();
         }
 
-
-
         public int DeleteBooking(DbBooking booking)
         {
             if (context.Bookings.Find(booking.Id) == null)
                 return 0;
             context.Bookings.Remove(booking);
             return context.SaveChanges();
-
-
-
         }
 
-        public async Task<bool> IsRoomBooked(DbBooking booking)
-        {
-            return await context.Bookings.AnyAsync(b =>
-            b.RoomId == booking.RoomId &&
-            booking.CheckInDate <= b.CheckOutDate &&
-            booking.CheckOutDate >= b.CheckInDate);
-        }
+        public async Task<IReadOnlyList<DbBooking>> GetBookingsForRoomAsync(int roomId)
+        => await context.Bookings.Where(b => b.RoomId == roomId).ToListAsync();
 
-      
+
     }
 }

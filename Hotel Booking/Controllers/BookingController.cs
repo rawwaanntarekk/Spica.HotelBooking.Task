@@ -38,10 +38,8 @@ namespace Hotel_Booking.Controllers
 
             var result = await _bookingService.CreateBooking(bookingEntity);
 
-            if (result == 0)
-                return BadRequest("Room is already booked for the selected dates.");
-            else if (result == -1)
-                return BadRequest("Check-out date must be after check-in date.");
+            if(!result.Success)
+                return BadRequest(new { message = result.Message });
 
             return CreatedAtAction(nameof(GetBookings), new { id = result }, booking);
         }
@@ -49,14 +47,14 @@ namespace Hotel_Booking.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBooking(int id, [FromBody] BookingUpdateDTO updatedBooking)
         {
-            var booking = await _bookingService.GetBookingById(id);
-            if (booking == null)
+            var result = await _bookingService.GetBookingById(id);
+            if (!result.success)
                 return NotFound(new { message = "Booking not found." });
 
-            var result = await _bookingService.EditBooking(id, updatedBooking);
+            var (success, ErrorMessage) = await _bookingService.EditBooking(id, updatedBooking);
 
-            if (!result.Success)
-                return BadRequest(new { message = result.ErrorMessage });
+            if (!success)
+                return BadRequest(new { message = ErrorMessage });
 
             return Ok(new { message = "Booking dates updated successfully." });
         }
@@ -64,11 +62,15 @@ namespace Hotel_Booking.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> CancelBooking(int id)
         {
-            var booking = await _bookingService.GetBookingById(id);
-            if (booking == null)
+            var result = await _bookingService.GetBookingById(id);
+
+            if (!result.success)
                 return NotFound(new { message = "Booking not found." });
 
-            var result = _bookingService.CancelBooking(booking);
+            var (success, message) = await _bookingService.CancelBooking(id);
+
+            if (!success)
+                return BadRequest(new { message });
 
             return Ok(new { message = "Booking deleted successfully." });
         }
